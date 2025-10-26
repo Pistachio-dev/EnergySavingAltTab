@@ -1,0 +1,15 @@
+{
+  "Author": "Pistachio Herald",
+  "Name": "Energy Saving Alt-Tab",
+  "Punchline": "Save power if you're not actually playing.",
+  "Description": "Slows the game FPS to a crawl when the window is inactive, saving GPU use. /esat opens the configuration window",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "energy",
+    "saving",
+    "background",
+    "multitasking",
+    "afk",
+    "party finder"    
+  ]
+}
