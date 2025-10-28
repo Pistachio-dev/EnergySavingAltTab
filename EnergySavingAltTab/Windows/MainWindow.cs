@@ -1,10 +1,6 @@
-using System;
-using System.Numerics;
 using Dalamud.Bindings.ImGui;
-using Dalamud.Interface.Utility;
-using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
-using Lumina.Excel.Sheets;
+using System;
 
 namespace EnergySavingAltTab.Windows;
 
@@ -13,15 +9,20 @@ public class MainWindow : Window, IDisposable
     private readonly Plugin plugin;
 
     public MainWindow(Plugin plugin)
-        : base("Configuration")
+        : base($"Energy Saving Alt-Tab Main Window")
     {
         this.plugin = plugin;
     }
 
-    public void Dispose() { }
+    public void Dispose()
+    { }
 
     public override void Draw()
     {
-        
+        if (ImGui.Button("Open configuration"))
+        {
+            plugin.ToggleConfigUi();
+            plugin.ToggleMainUi();
+        }
     }
 }
