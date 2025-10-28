@@ -4,7 +4,6 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace EnergySavingAltTab
 {
@@ -13,10 +12,14 @@ namespace EnergySavingAltTab
         private bool engaged = false;
         private readonly Plugin plugin;
         private readonly Stopwatch stopwatch = new Stopwatch();
+        private ActivityDetector activityDetector;
+        private readonly Stopwatch letOtherPluginWorkStopwatch = new Stopwatch();
+        private const int GracePeriodForOtherPluginsMs = 30000;
 
         public PowerLimiter(Plugin plugin)
         {
             this.plugin = plugin;
+            activityDetector = new ActivityDetector(plugin);
             Attach();
         }
 
@@ -28,6 +31,11 @@ namespace EnergySavingAltTab
         public void OnUpdate(IFramework framework)
         {
             if (!plugin.Configuration.Enabled || IsGameWindowFocused())
+            {
+                DisengageLimiter();
+                return;
+            }
+            if (IsAnotherPluginDoingStuff())
             {
                 DisengageLimiter();
                 return;
@@ -48,6 +56,24 @@ namespace EnergySavingAltTab
             }
         }
 
+        private bool IsAnotherPluginDoingStuff()
+        {
+            if (letOtherPluginWorkStopwatch.ElapsedMilliseconds > 0 && letOtherPluginWorkStopwatch.ElapsedMilliseconds < GracePeriodForOtherPluginsMs)
+            {
+                return true;
+            }
+
+            if (letOtherPluginWorkStopwatch.ElapsedMilliseconds > GracePeriodForOtherPluginsMs) { letOtherPluginWorkStopwatch.Reset(); }
+
+            if (activityDetector.WasActivityDetected())
+            {
+                letOtherPluginWorkStopwatch.Restart();
+                return true;
+            }
+
+            return false;
+        }
+
         private void EngageLimiter()
         {
             if (!engaged)
@@ -55,8 +81,8 @@ namespace EnergySavingAltTab
                 Plugin.Log.Info("Unfocused window FPS limiter engaged");
             }
             engaged = true;
-
         }
+
         private void DisengageLimiter()
         {
             if (engaged)
