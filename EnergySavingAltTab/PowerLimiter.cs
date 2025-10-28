@@ -1,3 +1,4 @@
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
 using System;
 using System.Diagnostics;
@@ -38,7 +39,7 @@ namespace EnergySavingAltTab
             // Block the game, but check often if the window is focused to have fluent movement right after refocusing the window.
             while (stopwatch.ElapsedMilliseconds < delayInMs)
             {
-                if (IsGameWindowFocused())
+                if (IsGameWindowFocused() || (plugin.Configuration.DisableWhenCrafting && IsOnFrameSensitiveActivity()))
                 {
                     DisengageLimiter();
                     return;
@@ -68,6 +69,11 @@ namespace EnergySavingAltTab
         private float GetFrameDelayFromConfigInMs()
         {
             return 10000f / plugin.Configuration.FramesPerTenSeconds;
+        }
+
+        private bool IsOnFrameSensitiveActivity()
+        {
+            return Plugin.Condition[ConditionFlag.Crafting];
         }
 
         private bool IsGameWindowFocused()

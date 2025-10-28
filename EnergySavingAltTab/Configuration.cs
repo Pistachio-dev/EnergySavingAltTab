@@ -12,6 +12,8 @@ public class Configuration : IPluginConfiguration
 
     public bool DisableWhenActivityDetected { get; set; }
 
+    public bool DisableWhenCrafting { get; set; } = true;
+
     public int FramesPerTenSeconds { get; set; } = 160;
 
     public void Save()

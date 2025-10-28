@@ -37,5 +37,13 @@ public class ConfigWindow : Window, IDisposable
         }
 
         ImGuiComponents.HelpMarker("The framerate to slow down to when the window is not active. The vanilla limiter sets this as 160");
+
+        bool disableWhenCrafting = configuration.DisableWhenCrafting;
+        if (ImGui.Checkbox("Disable when crafting", ref disableWhenCrafting))
+        {
+            configuration.DisableWhenCrafting = disableWhenCrafting;
+            configuration.Save();
+        }
+        ImGuiComponents.HelpMarker("I'm not sure if low framerate can actually affect the crafting product, so here's the option to disable it when crafting.");
     }
 }
