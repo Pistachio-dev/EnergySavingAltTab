@@ -19,11 +19,18 @@ namespace EnergySavingAltTab
             this.plugin = plugin;
         }
 
+        public void RefreshState()
+        {
+            lastAddonOpenedFlags = GetAddonsOpenedFlags();
+            lastPlayerPosition = GetPlayerPosition();
+            lastTarget = GetPlayerTarget();
+        }
+
         public bool WasActivityDetected()
         {
             var addonFlags = GetAddonsOpenedFlags();
-            var target = Plugin.TargetManager.Target;
-            var currentPos = Plugin.ClientState.LocalPlayer?.Position ?? Vector3.Zero;
+            var target = GetPlayerTarget();
+            var currentPos = GetPlayerPosition();
 
             bool changeDetected = CheckForDifferences(addonFlags, target, currentPos);
 
@@ -87,6 +94,15 @@ namespace EnergySavingAltTab
             }
 
             return ((AtkUnitBasePtr)a).IsVisible;
+        }
+
+        private Vector3 GetPlayerPosition()
+        {
+            return Plugin.ClientState.LocalPlayer?.Position ?? Vector3.Zero;
+        }
+        private IGameObject? GetPlayerTarget()
+        {
+            return Plugin.TargetManager.Target;
         }
     }
 }

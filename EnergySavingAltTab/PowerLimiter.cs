@@ -35,11 +35,6 @@ namespace EnergySavingAltTab
                 DisengageLimiter();
                 return;
             }
-            if (IsAnotherPluginDoingStuff())
-            {
-                DisengageLimiter();
-                return;
-            }
 
             var delayInMs = GetFrameDelayFromConfigInMs();
             stopwatch.Restart();
@@ -47,7 +42,7 @@ namespace EnergySavingAltTab
             // Block the game, but check often if the window is focused to have fluent movement right after refocusing the window.
             while (stopwatch.ElapsedMilliseconds < delayInMs)
             {
-                if (IsGameWindowFocused() || (plugin.Configuration.DisableWhenCrafting && IsOnFrameSensitiveActivity()))
+                if (IsGameWindowFocused() || (plugin.Configuration.DisableWhenCrafting && IsOnFrameSensitiveActivity()) || IsAnotherPluginDoingStuff())
                 {
                     DisengageLimiter();
                     return;
@@ -78,6 +73,7 @@ namespace EnergySavingAltTab
         {
             if (!engaged)
             {
+                activityDetector.RefreshState();
                 Plugin.Log.Info("Unfocused window FPS limiter engaged");
             }
             engaged = true;
