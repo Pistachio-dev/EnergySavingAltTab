@@ -14,10 +14,10 @@
       "party finder"
     ],
     "TestingDalamudApiLevel": 13,
-    "TestingAssemblyVersion": "0.0.0.1",
+    "TestingAssemblyVersion": "0.0.0.2",
     "TestingChangelog": "- Initial release",
-    "DownloadLinkTesting": "https://github.com/Pistachio-dev/EnergySavingAltTab/releases/download/0.0.0.1_testing/EnergySavingAltTab.zip",
-    "LastUpdate": 1761677036,
+    "DownloadLinkTesting": "https://github.com/Pistachio-dev/EnergySavingAltTab/releases/download/0.0.0.2_testing/EnergySavingAltTab.zip",
+    "LastUpdate": 1761720019,
     "InternalName": "EnergySavingAltTab"
   }
 ]
