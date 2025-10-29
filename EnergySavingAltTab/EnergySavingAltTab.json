@@ -4,6 +4,7 @@
   "Punchline": "Save power if you're not actually playing.",
   "Description": "Slows the game FPS to a crawl when the window is inactive, saving GPU use. /esat opens the configuration window",
   "ApplicableVersion": "any",
+  "IconUrl": "https://ffxiv.consolegameswiki.com/mediawiki/images/9/98/Lucid_Dreaming.png",
   "Tags": [
     "energy",
     "saving",
